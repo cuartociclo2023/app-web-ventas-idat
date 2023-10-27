@@ -25,6 +25,29 @@ $(document).on("click", ".btnactualizar", function(){
     $("#modalNuevo").modal("show");
 });
 
+$(document).on("click", "#btnguardar", function(){
+    $.ajax({
+        type: "POST",
+        url: "/backoffice/product/guardar",
+        contentType: "application/json",
+        data: JSON.stringify({
+            productid: $("#hddcodprod").val(),
+            productname: $("#txtnomproducto").val(),
+            unitprice: $("#txtpreciounit").val(),
+            categoryid: $("#cbocategoria").val(),
+            supplierid: $("#cboproveedor").val(),
+            discontinued: $("#chkdescontinuado").prop("checked")
+        }),
+        success: function(resultado){
+            if(resultado.respuesta){
+                listarProductos()
+            }
+            alert(resultado.mensaje);
+            $("#modalNuevo").modal("hide");
+        }
+    })
+});
+
 function listarCategoriasProveedores(idcate, idprov){
     $.ajax({
         type: "GET",
@@ -54,6 +77,34 @@ function listarCategoriasProveedores(idcate, idprov){
                         }
                     }
                 })
+        }
+    })
+}
+
+function listarProductos(){
+    $.ajax({
+        type: "GET",
+        url: "/backoffice/product/listar",
+        dataType: "json",
+        success: function(resultado){
+            $("#tblproducto > tbody").html("");
+            $.each(resultado, function(index, value){
+                $("#tblproducto > tbody").append("<tr>"+
+                    "<td>"+value.productid+"</td>"+
+                    "<td>"+value.productname+"</td>"+
+                    "<td>"+value.unitprice+"</td>"+
+                    "<td>"+value.category.categoryname+"</td>"+
+                    "<td>"+value.supplier.companyname+"</td>"+
+                    "<td>"+
+                        "<button type='button' class='btn btn-info btnactualizar'" +
+                            " data-prodcod='"+value.productid+"'"+
+                            " data-prodname='"+value.productname+"'"+
+                            " data-produnit='"+value.unitprice+"'"+
+                            " data-prodcateg='"+value.category.categoryid+"'"+
+                            " data-prodprov='"+value.supplier.supplierid+"'"+
+                            "><i class='fas fa-edit'></i></button></td></tr>"
+                );
+            })
         }
     })
 }
