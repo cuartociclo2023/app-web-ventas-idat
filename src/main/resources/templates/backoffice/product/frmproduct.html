@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script th:src="@{/scripts/web/backoffice/product/frmMantProduct.js}"
+        type="text/javascript"></script>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="card ">
+    <div class="card-header text-bg-dark mb-3">
+        Mantenimiento de Productos
+    </div>
+    <div class="card-body">
+        <button id="btnagregar"
+                type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Agregar</button>
+        <hr />
+        <div id="mensaje"></div>
+        <table id="tblproducto" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio Unitario</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Actualizar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="prod :${listaproductos}">
+                <td th:text="${prod.productid}"></td>
+                <td th:text="${prod.productname}"></td>
+                <td th:text="${prod.unitprice}"></td>
+                <td th:text="${prod.category.categoryname}"></td>
+                <td th:text="${prod.supplier.companyname}"></td>
+                <td>
+                    <button type="button" class="btn btn-info btnactualizar"
+                            th:data-prodcod="${prod.productid}"
+                            th:data-prodname="${prod.productname}"
+                            th:data-produnit="${prod.unitprice}"
+                            th:data-prodcateg="${prod.category.categoryid}"
+                            th:data-prodprov="${prod.supplier.supplierid}"
+                            th:data-descontinuado="${prod.discontinued}"><i class="fas fa-edit"></i></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Modal Registrar / Actualizar Producto -->
+<div class="modal fade" id="modalNuevo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="txtnomproducto" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="txtnomproducto">
+                </div>
+                <div class="mb-3">
+                    <label for="txtpreciounit" class="form-label">Precio Unitario</label>
+                    <input type="number" class="form-control" id="txtpreciounit">
+                </div>
+                <div class="mb-3">
+                    <label for="cbocategoria" class="form-label">Categoria</label>
+                    <select id="cbocategoria" class="form-control"></select>
+                </div>
+                <div class="mb-3">
+                    <label for="cboproveedor" class="form-label">Proveedor</label>
+                    <select id="cboproveedor" class="form-control"></select>
+                </div>
+                <div class="form-check form-switch" id="switchproducto">
+                    <input class="form-check-input" type="checkbox" role="switch" id="chkdescontinuado">
+                    <label class="form-check-label" for="chkdescontinuado">Descontinuado</label>
+                </div>
+                <input type="hidden" id="hddcodprod" value="0">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
+                <button type="button" id="btnguardar" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
