@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link th:href="@{/styles/bootstrap/bootstrap.min.css}"
+    <link th:href="@{/styles/bootstrap/bootstrap.css}"
           rel="stylesheet"/>
     <link th:href="@{/styles/fontawesome/all.css}"
           rel="stylesheet"/>
@@ -16,7 +16,7 @@
         Registro de Usuarios
     </div>
     <div class="card-body">
-        <form th:action="@{/auth/guardarUsuario}" method="post">
+        <form th:action="@{/auth/guardarusuario}" method="post">
             <div class="mb-3">
                 <label for="nombres" class="form-label">Nombres</label>
                 <input maxlength="15" type="text" class="form-control"
