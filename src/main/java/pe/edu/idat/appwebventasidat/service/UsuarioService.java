@@ -32,6 +32,9 @@ public class UsuarioService {
     public Usuario guardarUsuario(Usuario usuario){
         usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
         usuario.setActivo(true);
+        if(usuarioRepository.findByEmail(usuario.getEmail()) != null){
+
+        }
         Rol usuarioRol = rolRepository.findByNomrol("ADMIN");
         usuario.setRoles(new HashSet<>(Arrays.asList(usuarioRol)));
         return usuarioRepository.save(usuario);
